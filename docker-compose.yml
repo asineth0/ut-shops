@@ -1,0 +1,17 @@
+version: "3"
+services:
+  web:
+    build: "."
+    restart: always
+    ports:
+      - ${PORT}:3000
+    environment:
+      - ADMIN_PASSWORD=$ADMIN_PASSWORD
+      - HYALUS_CONFIG=$HYALUS_CONFIG
+  db:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - db:/data/db
+volumes:
+  db:

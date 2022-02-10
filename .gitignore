@@ -1,0 +1,7 @@
+packages/*/node_modules
+packages/*/tsconfig.buildinfo
+packages/*/dist
+node_modules
+.vscode
+*.log
+.env
