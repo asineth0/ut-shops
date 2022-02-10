@@ -23,29 +23,19 @@
         <p class="text-sm">Add item</p>
       </div>
     </div>
-    <div class="flex space-x-4 text-sm">
-      <ModalInput
-        v-model="search"
-        type="text"
-        class="flex-1"
-        placeholder="Search"
-      />
-      <InputList class="max-w-xs w-full">
-        <template #selected>
-          {{ tag?.name || "None" }}
-        </template>
-        <template #items>
-          <TagDetail
-            v-for="tag2 in store.state.value.tags"
-            :key="tag2.id"
-            :tag="tag2"
-            @click="tag = tag2"
-          />
-        </template>
-      </InputList>
-    </div>
+    <ModalInput
+      v-model="search"
+      type="text"
+      class="flex-1"
+      placeholder="Search"
+    />
     <div class="space-y-4">
-      <ItemDetail v-for="item in usableItems" :key="item.id" :item="item" />
+      <TagDetail
+        v-for="tag in store.state.value.tags"
+        :key="tag.id"
+        :tag="tag"
+        :search="search"
+      />
     </div>
   </div>
   <AdminLoginModal :show="adminLoginModal" @close="adminLoginModal = false" />
@@ -54,54 +44,21 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref, watch } from "vue";
+import { ref } from "vue";
 import AdminLoginModal from "./components/AdminLoginModal.vue";
 import { store } from "./global/store";
 import PlusIcon from "./icons/PlusIcon.vue";
 import ItemAddModal from "./components/ItemAddModal.vue";
-import { ITag, IItem } from "./global/types";
-import InputList from "./components/InputList.vue";
 import ModalInput from "./components/ModalInput.vue";
-import ItemDetail from "./components/ItemDetail.vue";
 import TagAddModal from "./components/TagAddModal.vue";
 import TagDetail from "./components/TagDetail.vue";
 
 const adminLoginModal = ref(false);
 const tagAddModal = ref(false);
 const itemAddModal = ref(false);
-const tag: Ref<ITag | null> = ref(store.state.value.tags[0]);
-const usableItems: Ref<IItem[]> = ref([]);
 const search = ref("");
 
 let keys: string[] = [];
-
-const update = () => {
-  if (tag.value) {
-    tag.value =
-      store.state.value.tags.find((tag2) => tag2.id === tag.value?.id) || null;
-  }
-
-  usableItems.value = store.state.value.items.filter(
-    (item) =>
-      item.tagId === tag.value?.id &&
-      [item.name, item.description]
-        .join("")
-        .toLowerCase()
-        .includes(search.value.toLowerCase())
-  );
-};
-
-update();
-
-watch(
-  () => [search.value, tag.value, store.state.value],
-  () => {
-    update();
-  },
-  {
-    deep: true,
-  }
-);
 
 addEventListener("keydown", ({ key }) => {
   keys.push(key);

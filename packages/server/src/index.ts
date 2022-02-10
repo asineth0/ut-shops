@@ -216,7 +216,7 @@ const processImage = async (val: Buffer) => {
       `Item Variation: ${req.body.variation}`,
       `Item Price: $${item.price}`,
       `Item Amount: ${req.body.amount}`,
-      `Order Total: ${item.price * req.body.amount}`,
+      `Order Total: $${item.price * req.body.amount}`,
       `Order Time: ${new Date().toLocaleString()}`,
       `Order IP: ${req.ip}`,
     ].join("\n");
