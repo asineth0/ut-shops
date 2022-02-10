@@ -13,7 +13,7 @@
     "test": "concurrently yarn:test:*",
     "test:server": "yarn workspace server test",
     "test:web": "yarn workspace web test",
-    "postinstall": "patch-package",
+    "postinstall": "patch-package || true",
     "start": "yarn workspace server start"
   },
   "devDependencies": {

@@ -7,6 +7,6 @@ buildSync({
   minify: true,
   sourcemap: true,
   platform: "node",
-  external: Object.keys(pkg.devDependencies),
+  external: Object.keys(pkg.dependencies),
   outdir: "dist",
 });
