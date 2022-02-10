@@ -28,7 +28,7 @@ COPY packages/server/package.json ./packages/server/package.json
 COPY packages/web/package.json ./packages/web/package.json
 COPY --from=package-server /app/packages/server/dist ./packages/server/dist
 COPY --from=package-web /app/packages/web/dist ./packages/web/dist
-RUN yarn --frozen-lockfile --prod
+RUN --mount=type=cache,target=/usr/local/share/.cache yarn --frozen-lockfile --prod
 ENV NODE_ENV=production
 HEALTHCHECK CMD curl localhost:3000
 CMD [ "yarn", "start" ]
